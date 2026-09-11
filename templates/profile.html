@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Student Profile - SkillBridge AI</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <div class="logo">SkillBridge AI</div>
+    </nav>
+
+    <section class="hero">
+
+        <h1>Student Profile</h1>
+
+        <p>
+            Enter your details and skills to begin your personalized
+            career skill-gap analysis.
+        </p>
+
+        <form method="POST" action="{{ url_for('analyze') }}">>
+        
+
+            <label>Full Name</label>
+            <br>
+            <input type="text" name="name" placeholder="Enter your name">
+
+            <br><br>
+
+            <label>Education</label>
+            <br>
+            <input type="text" name="education" placeholder="e.g. MCA">
+
+            <br><br>
+
+            <label>Current Skills</label>
+            <br>
+            <input type="text" name="skills" placeholder="e.g. Python, SQL, HTML">
+
+            <br><br>
+
+            <label>Desired Job Role</label>
+            <br>
+            <input type="text" name="job_role" placeholder="e.g. Python Developer">
+
+            <br><br>
+
+            <button type="submit" class="btn">Analyze My Skills</button>
+
+        </form>
+
+    </section>
+
+</body>
+</html>

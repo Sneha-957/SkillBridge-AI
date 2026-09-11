@@ -1,0 +1,7 @@
+job_role,required_skills
+Python Developer,"Python,SQL,Flask,Git,OOP"
+Web Developer,"HTML,CSS,JavaScript,SQL,Git"
+Data Analyst,"Python,SQL,Pandas,Excel,Statistics"
+Frontend Developer,"HTML,CSS,JavaScript,React,Git"
+Backend Developer,"Python,SQL,Flask,API,Git"
+Full Stack Developer,"HTML,CSS,JavaScript,React,Python,SQL,Git"
