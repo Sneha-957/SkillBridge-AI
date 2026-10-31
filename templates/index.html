@@ -1,35 +1,218 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>SkillBridge AI</title>
+    <title>SkillBridge AI | Career Growth Platform</title>
 
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet"
+    href="{{ url_for('static', filename='css/style.css') }}">
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet">
 </head>
 
 <body>
 
+    <!-- Navbar -->
     <nav class="navbar">
-        <div class="logo">SkillBridge AI</div>
+        <div class="logo">
+            <span class="logo-icon">✦</span>
+            SkillBridge <span>AI</span>
+        </div>
+
+        <div class="nav-links">
+            <a href="#home">Home</a>
+            <a href="#features">Features</a>
+            <a href="#about">About</a>
+            <a href="{{ url_for('profile') }}" class="nav-btn">
+                Get Started →
+            </a>
+        </div>
     </nav>
 
-    <section class="hero">
 
-        <h1>SkillBridge AI</h1>
+    <!-- Hero Section -->
+    <section class="hero" id="home">
 
-        <h2>Bridge Your Skills to Your Dream Career</h2>
+        <div class="hero-content">
 
-        <p>
-            Identify the skills required for your desired job role,
-            discover your skill gaps, and get a personalized learning
-            roadmap to improve your career readiness.
-        </p>
+            <div class="tag">
+                ✨ AI-POWERED CAREER DEVELOPMENT
+            </div>
 
-        <a href="{{ url_for('profile') }}" class="btn">Get Started</a>
+            <h1>
+                Bridge Your Skills<br>
+                To Your <span>Dream Career.</span>
+            </h1>
+
+            <p>
+                Discover your skill gaps, analyze your career readiness
+                and follow a personalized learning roadmap to achieve
+                your professional goals with SkillBridge AI.
+            </p>
+
+            <div class="hero-buttons">
+
+                <a href="{{ url_for('profile') }}" class="btn">
+                    Get Started <span>→</span>
+                </a>
+
+                <a href="#features" class="secondary-btn">
+                    Explore Features
+                </a>
+
+            </div>
+
+            <div class="hero-note">
+                ✓ Smart Skill Analysis
+                &nbsp;&nbsp; ✓ Personalized Roadmap
+            </div>
+
+        </div>
+
+
+        <!-- Dashboard Preview -->
+        <div class="preview-card">
+
+            <div class="preview-header">
+                <div>
+                    <small>CAREER OVERVIEW</small>
+                    <h3>Your Skill Dashboard</h3>
+                </div>
+                <span class="status">● Active</span>
+            </div>
+
+            <div class="preview-score">
+                <div>
+                    <small>Skill Match Score</small>
+                    <h2>85%</h2>
+                    <span>Career readiness overview</span>
+                </div>
+
+                <div class="score-circle">
+                    <div>85%</div>
+                </div>
+            </div>
+
+            <div class="preview-divider"></div>
+
+            <h4>Skills Overview</h4>
+
+            <div class="skill-row">
+                <span>Python</span>
+                <div class="progress">
+                    <div style="width:90%"></div>
+                </div>
+                <b>90%</b>
+            </div>
+
+            <div class="skill-row">
+                <span>SQL</span>
+                <div class="progress">
+                    <div style="width:75%"></div>
+                </div>
+                <b>75%</b>
+            </div>
+
+            <div class="skill-row">
+                <span>Java</span>
+                <div class="progress">
+                    <div style="width:65%"></div>
+                </div>
+                <b>65%</b>
+            </div>
+
+            <div class="roadmap-box">
+                <span>🚀</span>
+                <div>
+                    <b>Your Next Step</b>
+                    <small>Improve your technical skills with a learning roadmap.</small>
+                </div>
+            </div>
+
+        </div>
 
     </section>
+
+
+    <!-- Features Section -->
+    <section class="features" id="features">
+
+        <div class="section-heading">
+            <span>WHAT WE OFFER</span>
+            <h2>Everything You Need to Grow</h2>
+            <p>Make smarter career decisions with AI-powered skill analysis.</p>
+        </div>
+
+        <div class="feature-grid">
+
+            <div class="feature-card">
+                <div class="feature-icon">🎯</div>
+                <h3>Skill Gap Analysis</h3>
+                <p>
+                    Compare your existing skills with job role
+                    requirements and identify missing skills.
+                </p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">📊</div>
+                <h3>Skill Matching</h3>
+                <p>
+                    Analyze the similarity between your skills
+                    and industry-required skills.
+                </p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">📚</div>
+                <h3>Learning Roadmap</h3>
+                <p>
+                    Get structured learning suggestions and
+                    useful resources to improve your skills.
+                </p>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- About Section -->
+    <section class="about" id="about">
+
+        <div class="about-content">
+            <span>ABOUT SKILLBRIDGE AI</span>
+
+            <h2>
+                Turn Your Skill Gaps Into
+                <span>Career Opportunities.</span>
+            </h2>
+
+            <p>
+                SkillBridge AI is an AI-powered career and skill gap
+                analysis system designed to help students understand
+                the difference between their current skills and the
+                skills required for their desired job roles.
+            </p>
+
+            <a href="{{ url_for('profile') }}" class="btn">
+                Analyze My Skills →
+            </a>
+        </div>
+
+    </section>
+
+
+    <!-- Footer -->
+    <footer>
+        <h3>✦ SkillBridge AI</h3>
+        <p>Empowering students with smarter career development.</p>
+        <small>© 2026 SkillBridge AI. All Rights Reserved.</small>
+    </footer>
 
 </body>
 </html>

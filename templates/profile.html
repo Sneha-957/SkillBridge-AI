@@ -1,61 +1,153 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Student Profile - SkillBridge AI</title>
+    <title>Student Profile | SkillBridge AI</title>
 
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet"
+    href="{{ url_for('static', filename='css/style.css') }}">
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet">
 </head>
 
-<body>
+<body class="profile-page">
 
+    <!-- Navbar -->
     <nav class="navbar">
-        <div class="logo">SkillBridge AI</div>
+        <div class="logo">
+            <span class="logo-icon">✦</span>
+            SkillBridge <span>AI</span>
+        </div>
+
+        <div class="nav-links">
+            <a href="{{ url_for('home') }}">Home</a>
+            <a href="{{ url_for('profile') }}" class="nav-btn">
+                Student Profile
+            </a>
+        </div>
     </nav>
 
-    <section class="hero">
 
-        <h1>Student Profile</h1>
+    <!-- Profile Section -->
+    <section class="profile-section">
 
-        <p>
-            Enter your details and skills to begin your personalized
-            career skill-gap analysis.
-        </p>
+        <div class="profile-heading">
+            <div class="tag">✦ PERSONALIZED CAREER ANALYSIS</div>
 
-        <form method="POST" action="{{ url_for('analyze') }}">>
-        
+            <h1>Let's Build Your <span>Career Profile.</span></h1>
 
-            <label>Full Name</label>
-            <br>
-            <input type="text" name="name" placeholder="Enter your name">
+            <p>
+                Tell us about yourself and your technical skills.
+                SkillBridge AI will analyze your skills and identify
+                the gaps between your current profile and your dream job.
+            </p>
+        </div>
 
-            <br><br>
 
-            <label>Education</label>
-            <br>
-            <input type="text" name="education" placeholder="e.g. MCA">
+        <!-- Form Card -->
+        <div class="profile-card">
 
-            <br><br>
+            <div class="form-title">
+                <div class="form-icon">👩‍🎓</div>
 
-            <label>Current Skills</label>
-            <br>
-            <input type="text" name="skills" placeholder="e.g. Python, SQL, HTML">
+                <div>
+                    <h2>Student Information</h2>
+                    <p>Enter your details below to get started.</p>
+                </div>
+            </div>
 
-            <br><br>
+            <form method="POST" action="{{ url_for('analyze') }}">
 
-            <label>Desired Job Role</label>
-            <br>
-            <input type="text" name="job_role" placeholder="e.g. Python Developer">
+                <div class="form-group">
+                    <label for="name">Full Name *</label>
+                    <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        placeholder="Enter your full name"
+                        required>
+                </div>
 
-            <br><br>
 
-            <button type="submit" class="btn">Analyze My Skills</button>
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        placeholder="Enter your email address">
+                </div>
 
-        </form>
+
+                <div class="form-group">
+                    <label for="education">Education *</label>
+                    <input
+                        type="text"
+                        id="education"
+                        name="education"
+                        placeholder="e.g. MCA, B.Tech, BCA"
+                        required>
+                </div>
+
+
+                <div class="form-group">
+                    <label for="skills">Current Skills *</label>
+                    <textarea
+                        id="skills"
+                        name="skills"
+                        rows="4"
+                        placeholder="e.g. Python, Java, SQL, HTML, CSS"
+                        required></textarea>
+
+                    <small>
+                        Enter your skills separated by commas.
+                    </small>
+                </div>
+
+
+                <div class="form-group">
+                    <label for="job_role">Desired Job Role *</label>
+                    <input
+                        type="text"
+                        id="job_role"
+                        name="job_role"
+                        placeholder="e.g. Python Developer"
+                        required>
+
+                    <small>
+                        Enter the job role exactly as listed in the dataset.
+                    </small>
+                </div>
+
+
+                <button type="submit" class="btn analyze-btn">
+                    Analyze My Skills <span>→</span>
+                </button>
+
+            </form>
+
+            <div class="privacy-note">
+                🔒 Your information is used for personalized skill analysis.
+            </div>
+
+        </div>
+
+        <a href="{{ url_for('home') }}" class="back-link">
+            ← Back to Home
+        </a>
 
     </section>
+
+
+    <footer>
+        <h3>✦ SkillBridge AI</h3>
+        <p>Empowering students with smarter career development.</p>
+        <small>© 2026 SkillBridge AI. All Rights Reserved.</small>
+    </footer>
 
 </body>
 </html>
