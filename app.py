@@ -1,222 +1,299 @@
 
-from flask import Flask, render_template, request, redirect, url_for, flash, send_file
+from flask import Flask, render_template, request, jsonify, send_file
 import pandas as pd
 import os
 import re
+from io import BytesIO
+from xml.sax.saxutils import escape
 
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics.pairwise import cosine_similarity
 
-from io import BytesIO
-
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer
 from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.lib.pagesizes import A4
-from reportlab.lib import colors
+
 
 app = Flask(__name__)
-app.secret_key = "skillbridge_ai_secret_key"
 
-# Project paths
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DATA_FILE = os.path.join(BASE_DIR, "data", "skills.csv")
 
 
-# Learning resources for missing skills
+# --------------------------------
+# LEARNING RESOURCES
+# --------------------------------
+
 LEARNING_RESOURCES = {
+
     "python": {
-        "roadmap": "Learn Python basics, variables, loops, functions, OOP and file handling.",
-        "resource": "https://www.youtube.com/results?search_query=python+full+course",
-        "documentation": "https://docs.python.org/3/",
+        "roadmap": "Learn Python basics, variables, data types, loops, functions, OOP and file handling. Practice small Python programs.",
+        "resource": "https://www.youtube.com/results?search_query=Python+programming+full+course+Hindi",
+        "documentation": "https://docs.python.org/3/tutorial/",
         "practice": "https://www.hackerrank.com/domains/python"
     },
 
     "java": {
-        "roadmap": "Learn Java syntax, OOP concepts, classes, objects and exception handling.",
-        "resource": "https://www.youtube.com/results?search_query=java+full+course",
-        "documentation": "https://docs.oracle.com/en/java/",
+        "roadmap": "Learn Java syntax, variables, loops, arrays, classes, objects, inheritance and exception handling.",
+        "resource": "https://www.youtube.com/results?search_query=Java+programming+full+course+Hindi",
+        "documentation": "https://docs.oracle.com/javase/tutorial/",
         "practice": "https://www.hackerrank.com/domains/java"
     },
 
     "sql": {
-        "roadmap": "Learn SQL queries, joins, subqueries, grouping and database management.",
-        "resource": "https://www.youtube.com/results?search_query=sql+full+course",
+        "roadmap": "Learn SQL commands, database concepts, SELECT queries, joins, grouping, subqueries and database management.",
+        "resource": "https://www.youtube.com/results?search_query=SQL+complete+course+Hindi",
         "documentation": "https://www.w3schools.com/sql/",
         "practice": "https://www.hackerrank.com/domains/sql"
     },
 
     "html": {
-        "roadmap": "Learn HTML tags, forms, tables, semantic elements and page structure.",
-        "resource": "https://www.youtube.com/results?search_query=html+full+course",
+        "roadmap": "Learn HTML structure, elements, headings, forms, tables, links and semantic tags.",
+        "resource": "https://www.youtube.com/results?search_query=HTML+full+course+Hindi",
         "documentation": "https://developer.mozilla.org/en-US/docs/Web/HTML",
         "practice": "https://www.w3schools.com/html/"
     },
 
     "css": {
-        "roadmap": "Learn CSS selectors, colors, layouts, Flexbox, Grid and responsive design.",
-        "resource": "https://www.youtube.com/results?search_query=css+full+course",
+        "roadmap": "Learn CSS selectors, colors, backgrounds, box model, flexbox, grid and responsive web design.",
+        "resource": "https://www.youtube.com/results?search_query=CSS+full+course+Hindi",
         "documentation": "https://developer.mozilla.org/en-US/docs/Web/CSS",
         "practice": "https://www.w3schools.com/css/"
     },
 
     "javascript": {
-        "roadmap": "Learn JavaScript variables, functions, DOM manipulation and events.",
-        "resource": "https://www.youtube.com/results?search_query=javascript+full+course",
+        "roadmap": "Learn JavaScript variables, functions, arrays, objects, DOM manipulation and events.",
+        "resource": "https://www.youtube.com/results?search_query=JavaScript+full+course+Hindi",
         "documentation": "https://developer.mozilla.org/en-US/docs/Web/JavaScript",
         "practice": "https://www.hackerrank.com/domains/javascript"
     },
 
     "flask": {
-        "roadmap": "Learn Flask routing, templates, forms and database integration.",
-        "resource": "https://www.youtube.com/results?search_query=flask+python+tutorial",
-        "documentation": "https://flask.palletsprojects.com/",
+        "roadmap": "Learn Flask installation, routing, templates, forms, HTTP methods and database integration.",
+        "resource": "https://www.youtube.com/results?search_query=Flask+framework+tutorial+Hindi",
+        "documentation": "https://flask.palletsprojects.com/en/stable/",
         "practice": "https://www.w3schools.com/python/python_flask.asp"
     },
 
     "machine learning": {
-        "roadmap": "Learn supervised learning, unsupervised learning, model training and evaluation.",
-        "resource": "https://www.youtube.com/results?search_query=machine+learning+course",
-        "documentation": "https://scikit-learn.org/stable/",
+        "roadmap": "Learn supervised and unsupervised learning, regression, classification, clustering and model evaluation.",
+        "resource": "https://www.youtube.com/results?search_query=Machine+Learning+complete+course+Hindi",
+        "documentation": "https://scikit-learn.org/stable/user_guide.html",
         "practice": "https://www.kaggle.com/learn"
     },
 
     "git": {
-        "roadmap": "Learn Git commands, repositories, commits, branches and GitHub.",
-        "resource": "https://www.youtube.com/results?search_query=git+github+tutorial",
+        "roadmap": "Learn Git basics, repositories, commits, branches, merging and GitHub collaboration.",
+        "resource": "https://www.youtube.com/results?search_query=Git+and+GitHub+tutorial+Hindi",
         "documentation": "https://git-scm.com/doc",
-        "practice": "https://skills.github.com/"
+        "practice": "https://learngitbranching.js.org/"
+    },
+
+    "oop": {
+        "roadmap": "Learn Object-Oriented Programming concepts including classes, objects, inheritance, polymorphism, encapsulation and abstraction.",
+        "resource": "https://www.youtube.com/results?search_query=OOP+Object+Oriented+Programming+Hindi+tutorial",
+        "documentation": "https://docs.oracle.com/javase/tutorial/java/concepts/",
+        "practice": "https://www.hackerrank.com/domains/java"
+    },
+
+    "object oriented programming": {
+        "roadmap": "Learn classes, objects, inheritance, polymorphism, encapsulation and abstraction with practical examples.",
+        "resource": "https://www.youtube.com/results?search_query=OOP+Object+Oriented+Programming+Hindi+tutorial",
+        "documentation": "https://docs.oracle.com/javase/tutorial/java/concepts/",
+        "practice": "https://www.hackerrank.com/domains/java"
     }
 }
 
+
+# --------------------------------
+# SKILL PROCESSING
+# --------------------------------
+
 def clean_skill(skill):
-    """Normalize skill names."""
-    return re.sub(r"\s+", " ", str(skill).strip().lower())
+    """Normalize skill names for matching."""
+
+    skill = str(skill).strip().lower()
+    skill = re.sub(r"[^a-z0-9+#. ]", " ", skill)
+    skill = re.sub(r"\s+", " ", skill).strip()
+
+    aliases = {
+        "object oriented programming": "oop",
+        "object-oriented programming": "oop",
+        "oops": "oop",
+        "js": "javascript",
+        "ml": "machine learning"
+    }
+
+    return aliases.get(skill, skill)
 
 
-def parse_skills(value):
-    """Convert comma-separated skills into a list."""
-    if pd.isna(value):
+def parse_skills(skills):
+    """Convert comma, semicolon or pipe-separated skills into a list."""
+
+    if pd.isna(skills):
         return []
+
+    if isinstance(skills, list):
+        raw_skills = skills
+    else:
+        raw_skills = re.split(r"[,;|]", str(skills))
 
     return [
         clean_skill(skill)
-        for skill in re.split(r"[,;|]", str(value))
-        if clean_skill(skill)
+        for skill in raw_skills
+        if str(skill).strip()
     ]
 
 
+# --------------------------------
+# LOAD DATASET
+# --------------------------------
+
 def load_skill_data():
-    """Load job role and required skills from CSV."""
 
     if not os.path.exists(DATA_FILE):
         raise FileNotFoundError(
-            "skills.csv not found inside the data folder."
+            f"Dataset not found: {DATA_FILE}"
         )
 
     df = pd.read_csv(DATA_FILE)
 
-    df.columns = [str(col).strip().lower() for col in df.columns]
+    df.columns = [
+        str(column).strip().lower()
+        for column in df.columns
+    ]
 
     role_column = next(
-        (c for c in ["job_role", "role", "job", "career"]
-         if c in df.columns),
+        (column for column in ["job_role", "role", "job", "career"]
+         if column in df.columns),
         None
     )
 
-    skills_column = next(
-        (c for c in ["required_skills", "skills", "skill"]
-         if c in df.columns),
+    skill_column = next(
+        (column for column in ["required_skills", "skills", "skill"]
+         if column in df.columns),
         None
     )
 
-    if role_column is None or skills_column is None:
+    if role_column is None or skill_column is None:
         raise ValueError(
-            "CSV must contain job role and required skills columns."
+            "CSV must contain job_role and required_skills columns."
         )
 
-    jobs = {}
-
-    for _, row in df.iterrows():
-        role = str(row[role_column]).strip()
-
-        if not role or role.lower() == "nan":
-            continue
-
-        jobs[role] = parse_skills(row[skills_column])
-
-    return jobs
+    return df, role_column, skill_column
 
 
-def calculate_similarity(student_skills, required_skills):
-    """Calculate TF-IDF cosine similarity."""
+# --------------------------------
+# GET JOB ROLES
+# --------------------------------
 
-    if not student_skills or not required_skills:
-        return 0.0
+def get_job_roles():
 
-    student_text = " ".join(student_skills)
+    df, role_column, skill_column = load_skill_data()
+
+    return sorted(
+        df[role_column].dropna().astype(str).unique().tolist()
+    )
+
+
+# --------------------------------
+# SKILL ANALYSIS
+# --------------------------------
+
+def calculate_similarity(user_skills, required_skills):
+
+    if not user_skills or not required_skills:
+        return 0
+
+    user_text = " ".join(user_skills)
     required_text = " ".join(required_skills)
 
-    vectorizer = TfidfVectorizer()
+    if not user_text.strip() or not required_text.strip():
+        return 0
 
     try:
+        vectorizer = TfidfVectorizer()
         vectors = vectorizer.fit_transform(
-            [student_text, required_text]
+            [user_text, required_text]
         )
 
         score = cosine_similarity(
-            vectors[0:1], vectors[1:2]
+            vectors[0:1],
+            vectors[1:2]
         )[0][0]
 
-        return round(float(score) * 100, 2)
+        return round(score * 100, 2)
 
     except ValueError:
-        return 0.0
+        return 0
 
 
-def analyze_skills(student_skills, required_skills):
-    """Compare student skills with job requirements."""
+def analyze_skills(user_skills, required_skills):
+
+    user_clean = set(
+        clean_skill(skill) for skill in user_skills
+    )
+
+    required_clean = set(
+        clean_skill(skill) for skill in required_skills
+    )
 
     matched_skills = [
         skill for skill in required_skills
-        if skill in student_skills
+        if clean_skill(skill) in user_clean
     ]
 
     missing_skills = [
         skill for skill in required_skills
-        if skill not in student_skills
+        if clean_skill(skill) not in user_clean
     ]
 
-    total = len(required_skills)
-
-    match_percentage = (
-        round((len(matched_skills) / total) * 100, 2)
-        if total else 0
-    )
+    if required_clean:
+        match_percentage = round(
+            (len(user_clean.intersection(required_clean))
+             / len(required_clean)) * 100,
+            2
+        )
+    else:
+        match_percentage = 0
 
     similarity_score = calculate_similarity(
-        student_skills, required_skills
+        user_skills,
+        required_skills
     )
 
-    return {
-        "matched_skills": matched_skills,
-        "missing_skills": missing_skills,
-        "match_percentage": match_percentage,
-        "similarity_score": similarity_score
-    }
+    return (
+        matched_skills,
+        missing_skills,
+        match_percentage,
+        similarity_score
+    )
 
+
+# --------------------------------
+# GENERATE LEARNING ROADMAP
+# --------------------------------
 
 def generate_roadmap(missing_skills):
-    """Generate a learning roadmap for missing skills."""
 
     roadmap = []
 
     for index, skill in enumerate(missing_skills, start=1):
 
+        normalized_skill = clean_skill(skill)
+
         details = LEARNING_RESOURCES.get(
-            skill.lower(),
+            normalized_skill,
             {
-                "roadmap": f"Study the fundamentals of {skill}, practice examples and build a small project.",
-                "resource": "https://www.youtube.com/",
+                "roadmap": (
+                    f"Study the fundamentals of {skill}, "
+                    "practice examples and build a small project."
+                ),
+                "resource": (
+                    "https://www.youtube.com/results?search_query="
+                    + skill.replace(" ", "+")
+                    + "+tutorial"
+                ),
                 "documentation": "https://www.w3schools.com/",
                 "practice": "https://www.hackerrank.com/"
             }
@@ -234,114 +311,122 @@ def generate_roadmap(missing_skills):
     return roadmap
 
 
-# Home page
+# --------------------------------
+# HOME PAGE
+# --------------------------------
+
 @app.route("/")
 def home():
+
     return render_template("index.html")
 
 
-# Student profile page
-@app.route("/profile", methods=["GET", "POST"])
+# --------------------------------
+# PROFILE PAGE
+# --------------------------------
+
+@app.route("/profile", methods=["GET"])
 def profile():
 
-    if request.method == "POST":
+    try:
+        roles = get_job_roles()
+    except Exception as error:
+        print("Dataset Error:", error)
+        roles = []
 
-        name = request.form.get("name", "").strip()
-        email = request.form.get("email", "").strip()
-        education = request.form.get("education", "").strip()
-
-        if not name:
-            flash("Please enter your name.")
-            return redirect(url_for("profile"))
-
-        return render_template(
-            "profile.html",
-            name=name,
-            email=email,
-            education=education
-        )
-
-    return render_template("profile.html")
+    return render_template(
+        "profile.html",
+        roles=roles,
+        job_roles=roles
+    )
 
 
-# Skill gap analysis
-@app.route("/analyze", methods=["GET", "POST"])
+# --------------------------------
+# ANALYZE SKILLS
+# --------------------------------
+
+@app.route("/analyze", methods=["POST"])
 def analyze():
 
-    if request.method == "POST":
+    name = request.form.get("name", "").strip()
+    email = request.form.get("email", "").strip()
+    education = request.form.get("education", "").strip()
+    job_role = request.form.get("job_role", "").strip()
+    user_skills_input = request.form.get("skills", "")
 
-        name = request.form.get("name", "Student").strip()
-        email = request.form.get("email", "").strip()
-        education = request.form.get("education", "").strip()
+    user_skills = parse_skills(user_skills_input)
 
-        selected_role = request.form.get(
-            "job_role", ""
-        ).strip()
+    try:
 
-        entered_skills = request.form.get(
-            "skills", ""
+        df, role_column, skill_column = load_skill_data()
+
+        role_data = df[
+            df[role_column].astype(str).str.strip().str.lower()
+            == job_role.lower()
+        ]
+
+        if role_data.empty:
+            raise ValueError(
+                f"Job role '{job_role}' was not found in the dataset."
+            )
+
+        required_skills = parse_skills(
+            role_data.iloc[0][skill_column]
         )
 
-        student_skills = parse_skills(entered_skills)
-
-        if not student_skills:
-            flash("Please enter at least one skill.")
-            return redirect(url_for("profile"))
-
-        try:
-            jobs = load_skill_data()
-
-        except (FileNotFoundError, ValueError, pd.errors.ParserError) as error:
-            return f"Dataset Error: {error}", 500
-
-        if selected_role not in jobs:
-            return "Selected job role was not found in the dataset.", 400
-
-        required_skills = jobs[selected_role]
-
-        results = analyze_skills(
-            student_skills,
-            required_skills
+        matched_skills, missing_skills, match_percentage, similarity_score = (
+            analyze_skills(user_skills, required_skills)
         )
 
-        roadmap = generate_roadmap(
-            results["missing_skills"]
-        )
+        roadmap = generate_roadmap(missing_skills)
 
         return render_template(
             "result.html",
             name=name,
             email=email,
             education=education,
-            job_role=selected_role,
-            student_skills=student_skills,
-            required_skills=required_skills,
-            matched_skills=results["matched_skills"],
-            missing_skills=results["missing_skills"],
-            match_percentage=results["match_percentage"],
-            similarity_score=results["similarity_score"],
+            job_role=job_role,
+            match_percentage=match_percentage,
+            similarity_score=similarity_score,
+            matched_skills=matched_skills,
+            missing_skills=missing_skills,
             roadmap=roadmap
         )
 
-    return redirect(url_for("profile"))
+    except Exception as error:
+
+        print("Analysis Error:", error)
+
+        try:
+            roles = get_job_roles()
+        except Exception:
+            roles = []
+
+        return render_template(
+            "profile.html",
+            roles=roles,
+            job_roles=roles,
+            error=str(error)
+        ), 400
 
 
-# Display available job roles
+# --------------------------------
+# ROLES API
+# --------------------------------
+
 @app.route("/roles")
 def roles():
 
     try:
-        jobs = load_skill_data()
-        return {
-            "available_roles": list(jobs.keys())
-        }
+        return jsonify(get_job_roles())
 
-    except (FileNotFoundError, ValueError, pd.errors.ParserError) as error:
-        return {"error": str(error)}, 500
+    except Exception as error:
+        return jsonify({"error": str(error)}), 500
 
 
-from xml.sax.saxutils import escape
-
+# --------------------------------
+# DOWNLOAD PDF REPORT
+# --------------------------------
 
 @app.route("/download-report", methods=["POST"])
 def download_report():
@@ -367,7 +452,11 @@ def download_report():
 
     content.append(Spacer(1, 20))
 
-    content.append(Paragraph("<b>Student Information</b>", styles["Heading2"]))
+    content.append(Paragraph(
+        "Student Information",
+        styles["Heading2"]
+    ))
+
     content.append(Spacer(1, 10))
 
     fields = [
@@ -380,45 +469,65 @@ def download_report():
     ]
 
     for label, value in fields:
+
         content.append(Paragraph(
             f"<b>{escape(label)}:</b> {escape(str(value))}",
             styles["Normal"]
         ))
+
         content.append(Spacer(1, 8))
 
     content.append(Spacer(1, 15))
-    content.append(Paragraph("Matched Skills", styles["Heading2"]))
+
+    content.append(Paragraph(
+        "Matched Skills",
+        styles["Heading2"]
+    ))
 
     matched_skills = request.form.getlist("matched_skills")
 
     for skill in matched_skills:
         content.append(Paragraph(
-            "• " + escape(skill), styles["Normal"]
+            "&#8226; " + escape(skill),
+            styles["Normal"]
         ))
 
     content.append(Spacer(1, 15))
-    content.append(Paragraph("Skills to Improve", styles["Heading2"]))
+
+    content.append(Paragraph(
+        "Skills to Improve",
+        styles["Heading2"]
+    ))
 
     missing_skills = request.form.getlist("missing_skills")
 
     for skill in missing_skills:
         content.append(Paragraph(
-            "• " + escape(skill), styles["Normal"]
+            "&#8226; " + escape(skill),
+            styles["Normal"]
         ))
 
     content.append(Spacer(1, 15))
-    content.append(Paragraph("Learning Roadmap", styles["Heading2"]))
+
+    content.append(Paragraph(
+        "Learning Roadmap",
+        styles["Heading2"]
+    ))
 
     roadmap_skills = request.form.getlist("roadmap_skills")
-    roadmap_descriptions = request.form.getlist("roadmap_descriptions")
+    roadmap_descriptions = request.form.getlist(
+        "roadmap_descriptions"
+    )
 
     for index, skill in enumerate(roadmap_skills):
+
         content.append(Paragraph(
             f"<b>{index + 1}. {escape(skill)}</b>",
             styles["Normal"]
         ))
 
         if index < len(roadmap_descriptions):
+
             content.append(Paragraph(
                 escape(roadmap_descriptions[index]),
                 styles["Normal"]
@@ -437,5 +546,15 @@ def download_report():
         mimetype="application/pdf"
     )
 
+
+# --------------------------------
+# RUN APPLICATION
+# --------------------------------
+
 if __name__ == "__main__":
-    app.run(debug=True)
+
+    app.run(
+        host="0.0.0.0",
+        port=int(os.environ.get("PORT", 5000)),
+        debug=True
+    )
