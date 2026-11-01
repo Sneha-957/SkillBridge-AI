@@ -930,3 +930,12 @@ footer small {
         padding: 22px;
     }
 }
+/* Lavender Theme - Profile and Result Pages */
+
+.profile-page {
+    background: #F1EEFF !important;
+}
+
+.result-page {
+    background: #F1EEFF !important;
+}
