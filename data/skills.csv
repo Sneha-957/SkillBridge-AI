@@ -1,7 +1,11 @@
 job_role,required_skills
 Python Developer,"Python,SQL,Flask,Git,OOP"
 Web Developer,"HTML,CSS,JavaScript,SQL,Git"
-Data Analyst,"Python,SQL,Pandas,Excel,Statistics"
 Frontend Developer,"HTML,CSS,JavaScript,React,Git"
 Backend Developer,"Python,SQL,Flask,API,Git"
 Full Stack Developer,"HTML,CSS,JavaScript,React,Python,SQL,Git"
+Data Analyst,"SQL,Excel,Data Analysis,Python,Tableau,Statistics,R,SAS,Data Visualization,Power BI,Data Mining,ETL,Oracle,Data Modeling,Machine Learning"
+Data Scientist,"Machine Learning,Python,SQL,R,Statistics,Data Analysis,Big Data,Data Mining,Natural Language Processing,Spark,Tableau,Java,Deep Learning,C,Data Visualization"
+Data Engineer,"Python,SQL,Spark,Big Data,AWS,Java,Azure,ETL,Agile,Kafka,Machine Learning,Hadoop,NoSQL,PySpark,Scala"
+Business Analyst,"SQL,Data Analysis,Tableau,Excel,Python,Power BI,Agile,SAS,Data Visualization,Data Modeling,R,Data Mining,Statistics,Big Data,Oracle"
+Machine Learning Engineer,"Machine Learning,Python,Deep Learning,TensorFlow,Java,C,SQL,Big Data,Spark,Statistics,Natural Language Processing,PyTorch,AWS,C++,R"
