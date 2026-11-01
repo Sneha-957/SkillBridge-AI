@@ -27,7 +27,7 @@ DATA_FILE = os.path.join(BASE_DIR, "data", "skills.csv")
 LEARNING_RESOURCES = {
 
     "python": {
-        "roadmap": "Learn Python basics, variables, data types, loops, functions, OOP and file handling. Practice small Python programs.",
+        "roadmap": "Learn Python basics, variables, data types, loops, functions, OOP and file handling. Practice small programs.",
         "resource": "https://www.youtube.com/results?search_query=Python+programming+full+course+Hindi",
         "documentation": "https://docs.python.org/3/tutorial/",
         "practice": "https://www.hackerrank.com/domains/python"
@@ -41,7 +41,7 @@ LEARNING_RESOURCES = {
     },
 
     "sql": {
-        "roadmap": "Learn SQL commands, database concepts, SELECT queries, joins, grouping, subqueries and database management.",
+        "roadmap": "Learn SQL commands, SELECT queries, joins, grouping, subqueries and database management.",
         "resource": "https://www.youtube.com/results?search_query=SQL+complete+course+Hindi",
         "documentation": "https://www.w3schools.com/sql/",
         "practice": "https://www.hackerrank.com/domains/sql"
@@ -55,7 +55,7 @@ LEARNING_RESOURCES = {
     },
 
     "css": {
-        "roadmap": "Learn CSS selectors, colors, backgrounds, box model, flexbox, grid and responsive web design.",
+        "roadmap": "Learn CSS selectors, colors, backgrounds, box model, flexbox, grid and responsive design.",
         "resource": "https://www.youtube.com/results?search_query=CSS+full+course+Hindi",
         "documentation": "https://developer.mozilla.org/en-US/docs/Web/CSS",
         "practice": "https://www.w3schools.com/css/"
@@ -69,7 +69,7 @@ LEARNING_RESOURCES = {
     },
 
     "flask": {
-        "roadmap": "Learn Flask installation, routing, templates, forms, HTTP methods and database integration.",
+        "roadmap": "Learn Flask installation, routing, templates, forms, HTTP methods and application development.",
         "resource": "https://www.youtube.com/results?search_query=Flask+framework+tutorial+Hindi",
         "documentation": "https://flask.palletsprojects.com/en/stable/",
         "practice": "https://www.w3schools.com/python/python_flask.asp"
@@ -77,30 +77,170 @@ LEARNING_RESOURCES = {
 
     "machine learning": {
         "roadmap": "Learn supervised and unsupervised learning, regression, classification, clustering and model evaluation.",
-        "resource": "https://www.youtube.com/results?search_query=Machine+Learning+complete+course+Hindi",
+        "resource": "https://www.youtube.com/results?search_query=Machine+Learning+complete+course",
         "documentation": "https://scikit-learn.org/stable/user_guide.html",
         "practice": "https://www.kaggle.com/learn"
     },
 
     "git": {
-        "roadmap": "Learn Git basics, repositories, commits, branches, merging and GitHub collaboration.",
-        "resource": "https://www.youtube.com/results?search_query=Git+and+GitHub+tutorial+Hindi",
+        "roadmap": "Learn Git repositories, commits, branches, merging and GitHub collaboration.",
+        "resource": "https://www.youtube.com/results?search_query=Git+and+GitHub+tutorial",
         "documentation": "https://git-scm.com/doc",
         "practice": "https://learngitbranching.js.org/"
     },
 
     "oop": {
-        "roadmap": "Learn Object-Oriented Programming concepts including classes, objects, inheritance, polymorphism, encapsulation and abstraction.",
-        "resource": "https://www.youtube.com/results?search_query=OOP+Object+Oriented+Programming+Hindi+tutorial",
+        "roadmap": "Learn classes, objects, inheritance, polymorphism, encapsulation and abstraction.",
+        "resource": "https://www.youtube.com/results?search_query=OOP+Object+Oriented+Programming+Hindi",
         "documentation": "https://docs.oracle.com/javase/tutorial/java/concepts/",
         "practice": "https://www.hackerrank.com/domains/java"
     },
 
-    "object oriented programming": {
-        "roadmap": "Learn classes, objects, inheritance, polymorphism, encapsulation and abstraction with practical examples.",
-        "resource": "https://www.youtube.com/results?search_query=OOP+Object+Oriented+Programming+Hindi+tutorial",
-        "documentation": "https://docs.oracle.com/javase/tutorial/java/concepts/",
-        "practice": "https://www.hackerrank.com/domains/java"
+    "r": {
+        "roadmap": "Learn R syntax, vectors, data frames, functions, packages and data visualization. Analyse a small dataset.",
+        "resource": "https://www.youtube.com/results?search_query=R+programming+for+data+science",
+        "documentation": "https://cran.r-project.org/manuals.html",
+        "practice": "https://posit.cloud/learn/primers"
+    },
+
+    "statistics": {
+        "roadmap": "Study descriptive statistics, probability, distributions, sampling, hypothesis testing, correlation and regression.",
+        "resource": "https://www.youtube.com/results?search_query=Statistics+for+Data+Science+course",
+        "documentation": "https://www.itl.nist.gov/div898/handbook/",
+        "practice": "https://www.kaggle.com/learn"
+    },
+
+    "data analysis": {
+        "roadmap": "Learn data cleaning, exploratory data analysis, summarisation and interpretation. Practise analysing datasets.",
+        "resource": "https://www.youtube.com/results?search_query=Data+Analysis+with+Python",
+        "documentation": "https://pandas.pydata.org/docs/",
+        "practice": "https://www.kaggle.com/learn"
+    },
+
+    "big data": {
+        "roadmap": "Understand distributed storage, large datasets, data pipelines and Hadoop and Spark technologies.",
+        "resource": "https://www.youtube.com/results?search_query=Big+Data+Hadoop+Spark+tutorial",
+        "documentation": "https://hadoop.apache.org/docs/",
+        "practice": "https://spark.apache.org/docs/latest/"
+    },
+
+    "data mining": {
+        "roadmap": "Study data preprocessing, pattern discovery, classification, clustering and association rules.",
+        "resource": "https://www.youtube.com/results?search_query=Data+Mining+techniques+tutorial",
+        "documentation": "https://scikit-learn.org/stable/",
+        "practice": "https://www.kaggle.com/learn"
+    },
+
+    "natural language processing": {
+        "roadmap": "Learn text preprocessing, tokenization, stemming, vectorization and text classification. Build a text analysis project.",
+        "resource": "https://www.youtube.com/results?search_query=NLP+beginner+course",
+        "documentation": "https://www.nltk.org/",
+        "practice": "https://www.kaggle.com/learn"
+    },
+
+    "spark": {
+        "roadmap": "Learn Spark DataFrames, transformations, actions, Spark SQL and distributed data processing.",
+        "resource": "https://www.youtube.com/results?search_query=Apache+Spark+PySpark+tutorial",
+        "documentation": "https://spark.apache.org/docs/latest/",
+        "practice": "https://spark.apache.org/docs/latest/api/python/"
+    },
+
+    "tableau": {
+        "roadmap": "Learn worksheets, dimensions, measures, charts, filters and interactive dashboards.",
+        "resource": "https://www.youtube.com/results?search_query=Tableau+beginner+course",
+        "documentation": "https://help.tableau.com/",
+        "practice": "https://public.tableau.com/"
+    },
+
+    "deep learning": {
+        "roadmap": "Study neural networks, activation functions, loss functions, backpropagation and model training.",
+        "resource": "https://www.youtube.com/results?search_query=Deep+Learning+beginner+course",
+        "documentation": "https://www.tensorflow.org/learn",
+        "practice": "https://www.tensorflow.org/tutorials"
+    },
+
+    "c": {
+        "roadmap": "Learn C syntax, data types, conditions, loops, functions, arrays, pointers and structures.",
+        "resource": "https://www.youtube.com/results?search_query=C+programming+beginner+course",
+        "documentation": "https://en.cppreference.com/w/c",
+        "practice": "https://www.hackerrank.com/domains/c"
+    },
+
+    "data visualization": {
+        "roadmap": "Learn chart selection, data presentation and visualization using Matplotlib, Seaborn and Tableau.",
+        "resource": "https://www.youtube.com/results?search_query=Data+Visualization+Python+tutorial",
+        "documentation": "https://matplotlib.org/stable/users/index.html",
+        "practice": "https://www.kaggle.com/learn/data-visualization"
+    },
+
+    "pandas": {
+        "roadmap": "Learn Series, DataFrames, reading files, filtering, missing values, grouping and merging datasets.",
+        "resource": "https://www.youtube.com/results?search_query=Python+Pandas+complete+tutorial",
+        "documentation": "https://pandas.pydata.org/docs/",
+        "practice": "https://www.kaggle.com/learn/pandas"
+    },
+
+    "numpy": {
+        "roadmap": "Learn NumPy arrays, indexing, slicing, broadcasting and mathematical operations.",
+        "resource": "https://www.youtube.com/results?search_query=NumPy+Python+tutorial",
+        "documentation": "https://numpy.org/doc/stable/user/absolute_beginners.html",
+        "practice": "https://www.w3resource.com/python-exercises/numpy/"
+    },
+
+    "power bi": {
+        "roadmap": "Learn importing data, Power Query, data modelling, DAX and interactive reports.",
+        "resource": "https://www.youtube.com/results?search_query=Power+BI+beginner+course",
+        "documentation": "https://learn.microsoft.com/en-us/power-bi/",
+        "practice": "https://learn.microsoft.com/en-us/training/powerplatform/power-bi/"
+    },
+
+    "etl": {
+        "roadmap": "Understand Extract, Transform and Load workflows, data cleaning, validation and data pipelines.",
+        "resource": "https://www.youtube.com/results?search_query=ETL+pipeline+beginner+tutorial",
+        "documentation": "https://learn.microsoft.com/en-us/azure/architecture/data-guide/relational-data/etl",
+        "practice": "https://airflow.apache.org/docs/"
+    },
+
+    "oracle": {
+        "roadmap": "Learn relational databases, SQL queries, joins, constraints, views and database management.",
+        "resource": "https://www.youtube.com/results?search_query=Oracle+SQL+beginner+tutorial",
+        "documentation": "https://docs.oracle.com/en/database/",
+        "practice": "https://livesql.oracle.com/"
+    },
+
+    "data modeling": {
+        "roadmap": "Learn entities, attributes, relationships, primary keys, foreign keys and database normalization.",
+        "resource": "https://www.youtube.com/results?search_query=Database+Data+Modeling+tutorial",
+        "documentation": "https://learn.microsoft.com/en-us/power-bi/transform-model/",
+        "practice": "https://www.db-fiddle.com/"
+    },
+
+    "api": {
+        "roadmap": "Learn HTTP methods, requests, responses, status codes, JSON and REST API development.",
+        "resource": "https://www.youtube.com/results?search_query=REST+API+beginner+tutorial",
+        "documentation": "https://developer.mozilla.org/en-US/docs/Web/HTTP",
+        "practice": "https://www.postman.com/learn/"
+    },
+
+    "tensorflow": {
+        "roadmap": "Learn tensors, datasets, neural network layers, model training and evaluation.",
+        "resource": "https://www.youtube.com/results?search_query=TensorFlow+beginner+tutorial",
+        "documentation": "https://www.tensorflow.org/learn",
+        "practice": "https://www.tensorflow.org/tutorials"
+    },
+
+    "pytorch": {
+        "roadmap": "Learn tensors, datasets, neural network modules, autograd, training and evaluation.",
+        "resource": "https://www.youtube.com/results?search_query=PyTorch+beginner+course",
+        "documentation": "https://pytorch.org/tutorials/",
+        "practice": "https://pytorch.org/tutorials/beginner/basics/intro.html"
+    },
+
+    "scikit-learn": {
+        "roadmap": "Learn data preprocessing, train-test splitting, model fitting, prediction and evaluation.",
+        "resource": "https://www.youtube.com/results?search_query=Scikit+Learn+machine+learning+tutorial",
+        "documentation": "https://scikit-learn.org/stable/user_guide.html",
+        "practice": "https://scikit-learn.org/stable/auto_examples/index.html"
     }
 }
 
@@ -117,12 +257,14 @@ def clean_skill(skill):
     skill = re.sub(r"\s+", " ", skill).strip()
 
     aliases = {
-        "object oriented programming": "oop",
-        "object-oriented programming": "oop",
-        "oops": "oop",
-        "js": "javascript",
-        "ml": "machine learning"
-    }
+    "object oriented programming": "oop",
+    "object-oriented programming": "oop",
+    "oops": "oop",
+    "js": "javascript",
+    "ml": "machine learning",
+    "nlp": "natural language processing",
+    "powerbi": "power bi"
+}
 
     return aliases.get(skill, skill)
 
@@ -550,7 +692,6 @@ def download_report():
 # --------------------------------
 # RUN APPLICATION
 # --------------------------------
-
 if __name__ == "__main__":
 
     app.run(
